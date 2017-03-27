@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+    <package name="default" namespace="/" extends="struts-default">
+    	<default-action-ref name="listCats"/>
+    	
+    	<!-- <action name="intercept" class="com.action.LoginFilter" method="intercept">
+    		<result type="chain">login</result>
+		</action> -->
+		
+   		<action name="listCats" class="com.action.CategoryAction" method="listCats">
+		</action>
+		
+		<action name="listBooksByCategory" class="com.action.BookAction" method="listBooksByCategory">
+				<result>/jsps/book/list.jsp</result>
+		</action>
+		
+		<action name="getBookByBid" class="com.action.BookAction" method="getBookByBid">
+			<result>jsps/book/desc.jsp</result>
+		</action>
+		
+		<action name="getBookByAuthor" class="com.action.BookAction" method="getBookByAuthor">
+			<result>jsps/book/list.jsp</result>
+		</action>
+		
+		<action name="getBookByPress" class="com.action.BookAction" method="getBookByPress">
+			<result>jsps/book/list.jsp</result>
+		</action>
+	
+		<action name="doFuzzyQuery" class="com.action.BookAction" method="doFuzzyQuery">
+			<result>/jsps/book/list.jsp</result>
+		</action>
+		
+		<action name="appointQuery" class="com.action.BookAction" method="appointQuery">
+			<result>/jsps/book/list.jsp</result>
+		</action>
+		
+		<action name="existLoginname" class="com.action.UserAction" method="existLoginname">
+		</action>
+		
+		<action name="validateEmail" class="com.action.UserAction" method="validateEmail">
+		</action>
+		
+		<action name="validateVerifyCode" class="com.action.UserAction" method="validateVerifyCode">
+		</action>
+		
+		<action name="verifyCodeServlet" class="com.action.VerifyCodeServlet" method="verifyCodeServlet">
+		</action>
+		
+		<action name="validatePassword" class="com.action.UserAction" method="validatePassword">
+		</action>
+		
+		<action name="updatePassword" class="com.action.UserAction" method="updatePassword">
+			<result name="success">/jsps/msg.jsp</result>
+			<result name="error">/jsps/msg.jsp</result>
+		</action>
+		
+		<action name="quit" class="com.action.UserAction" method="quit">
+			<result>/jsps/user/login.jsp</result>
+		</action>
+		
+		<action name="login" class="com.action.UserAction" method="login">
+			<result>/index.jsp</result>
+			<result name="error">/jsps/user/login.jsp</result>
+		</action>
+		
+		<action name="regist" class="com.action.UserAction" method="regist">
+			<result>/jsps/msg.jsp</result>
+			<result name="error">/jsps/user/regist.jsp</result>
+		</action>
+		
+		<action name="myCart" class="com.action.CartItemAction" method="myCart">
+			<result>/jsps/cart/list.jsp</result>
+		</action>
+		
+		<action name="add" class="com.action.CartItemAction" method="add">
+			<result type="chain">myCart</result>
+			<result name="error" >/jsps/user/login.jsp</result>
+		</action>
+		
+		<action name="removeCartItemByCid" class="com.action.CartItemAction" method="removeCartItemByCid">
+			<result type="chain">myCart</result>
+		</action>
+		
+		<action name="removeCartItemsByCids" class="com.action.CartItemAction" method="removeCartItemsByCids">
+		</action>
+		
+		<action name="updateQuantity" class="com.action.CartItemAction" method="updateQuantity">
+		</action>
+		
+		<action name="listCartItemsByCids" class="com.action.CartItemAction" method="listCartItemsByCids">
+			<result>/jsps/cart/showitem.jsp</result>
+		</action>
+		
+		<action name="create" class="com.action.OrderAction" method="create">
+			<result>/jsps/order/ordersucc.jsp</result>
+		</action>
+		
+		<action name="listOrdersByUser" class="com.action.OrderAction" method="listOrdersByUser">
+			<result>/jsps/order/list.jsp</result>
+		</action>
+		
+		<action name="getOrderByOid" class="com.action.OrderAction" method="getOrderByOid">
+			<result>/jsps/order/desc.jsp</result>
+		</action> 
+		
+		<action name="cancelOrder" class="com.action.OrderAction" method="cancelOrder">
+			<result>/jsps/msg.jsp</result>
+		</action> 
+		
+		<action name="confirmOrder" class="com.action.OrderAction" method="confirmOrder">
+			<result>/jsps/msg.jsp</result>
+		</action> 
+		
+    </package>
+</struts>

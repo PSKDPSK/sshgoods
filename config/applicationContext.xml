@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.2.xsd">
+
+	<!-- 配置数据源C3P0, 自动加载c3p0-config.xml -->
+	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+		<!-- 数据库连接的相关配置 -->
+		<property name="jdbcUrl" value="jdbc:mysql://localhost:3306/goods"></property>
+		<property name="driverClass" value="com.mysql.jdbc.Driver"></property>
+		<property name="user" value="root"></property>
+		<property name="password" value="dhcdhc"></property>
+		<!-- 连接池相关的配置 -->
+		<property name="acquireIncrement" value="3"></property>
+		<property name="initialPoolSize" value="10"></property>
+		<property name="minPoolSize" value="2"></property>
+		<property name="maxPoolSize" value="10"></property>
+	</bean>
+	
+	<!-- sessionFactory -->
+	<bean id="sessionFactory" class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+		<!-- 数据源的引用 -->
+		<property name="dataSource" ref="dataSource"></property>
+		<!-- 设置hibernate的相关配置项 -->
+		<property name="hibernateProperties">
+			<!-- properties类型的属性赋值 -->
+			<props>
+				<!-- 数据库方言,确定你用的是哪种数据库  -->
+		        <prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+		        <!-- 是否显示SQL语句,true表示显示SQL -->
+		        <prop key="hibernate.show_sql">true</prop>
+		        <!-- 格式化SQL语句 -->
+		        <prop key="hibernate.format_sql">true</prop>
+		        <!-- 自动生成表结构, 有一些策略, 一般用update, 如果有新增的字段,会自动增加, 如果没有保持原样
+		        	其他策略:
+		        	create  每次都去创建	
+		        	create-drop 
+		         -->
+		        <prop key="hibernate.hbm2ddl.auto">update</prop>
+			</props>
+		</property>
+		<!-- 配置hibernate的实体类对应的扫描包的路径 -->
+		<property name="packagesToScan" value="com.entity"></property>
+	</bean>
+	
+	<!-- HibernateTemplate, 模板, 之后所有的增删改查都是基于这个模板去做的 -->
+	<bean id="hibernateTemplate" class="org.springframework.orm.hibernate3.HibernateTemplate">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+	
+	<context:component-scan base-package="com.biz,com.dao,com.action"></context:component-scan>
+	
+	<tx:annotation-driven transaction-manager ="transactionManager" />
+	
+	<bean id="transactionManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean> 
+	
+</beans>
